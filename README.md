@@ -364,3 +364,64 @@ O Nazuna Bot Panel está pronto para uso em produção com:
 
 **Acesse o painel e comece a gerenciar seu bot Nazuna de forma profissional!**
 
+
+
+## 💻 Instalação Local (Desenvolvimento)
+
+Para rodar o painel localmente em seu computador ou em ambientes como o Termux, siga os passos abaixo:
+
+### 1. **Pré-requisitos**
+
+Certifique-se de ter instalado:
+- **Git**: Para clonar o repositório.
+- **Python 3.11+**: Para o backend Flask.
+- **Node.js 18+ e pnpm**: Para o frontend React.
+
+#### **Instalação no Termux (Android)**
+
+```bash
+pkg update && pkg upgrade -y
+pkg install git python nodejs-lts -y
+npm install -g pnpm
+```
+
+### 2. **Clonar o Repositório**
+
+```bash
+git clone https://github.com/Pauloh2206/Panel-BOT.git
+cd Panel-BOT
+```
+
+### 3. **Configurar o Backend (Flask)**
+
+```bash
+cd nazuna-panel-backend
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+
+# Rodar o backend
+nohup python src/main.py > backend.log 2>&1 &
+```
+
+### 4. **Configurar o Frontend (React)**
+
+```bash
+cd ../nazuna-panel-frontend
+pnpm install
+
+# Rodar o frontend (em uma nova sessão de terminal)
+pnpm run dev --host
+```
+
+### 5. **Acessar o Painel**
+
+Após iniciar o backend e o frontend, acesse o painel em seu navegador:
+
+`http://localhost:5173`
+
+**Observações para Termux:**
+- Para acessar `localhost:5173` do seu navegador no Android, use o endereço IP do seu dispositivo Termux (geralmente `127.0.0.1` ou o IP da rede local).
+- Mantenha as sessões do Termux abertas para o backend e frontend enquanto estiver usando o painel.
+- Para parar os processos, você pode usar `pkill -f 
+
