@@ -74,7 +74,8 @@ nazuna-panel/
 │   │   └── models/              # Modelos do banco
 │   ├── static/                  # Frontend compilado
 │   ├── requirements.txt         # Dependências Python
-│   ├── install.sh              # Script de instalação
+│   ├── install.sh              # Script de instalação para VPS
+│   ├── install-termux.sh       # Script de instalação para Termux
 │   ├── start.sh                # Script de inicialização
 │   ├── Dockerfile              # Docker
 │   ├── docker-compose.yml      # Docker Compose
@@ -98,31 +99,70 @@ nazuna-panel/
 └── nazuna/                     # Bot Nazuna (clonado)
 ```
 
-## 🚀 Opções de Instalação
+## 🚀 Opções de Instalação Automatizada
 
-### 1. **Instalação Automática (VPS/Servidor)**
+Oferecemos scripts de instalação automatizada para simplificar o deploy em diferentes ambientes. Escolha a opção que melhor se adapta às suas necessidades:
+
+### 1. **Instalação em VPS/Servidor (Linux)**
+
+Este script automatiza a instalação completa em servidores Linux (Ubuntu, Debian, CentOS, RHEL).
 
 ```bash
-# Ubuntu/Debian
-wget https://raw.githubusercontent.com/seu-repo/nazuna-panel/main/install.sh
+# Baixar o script de instalação
+wget https://raw.githubusercontent.com/Pauloh2206/Panel-BOT/main/nazuna-panel-backend/install.sh
+
+# Tornar o script executável
 chmod +x install.sh
+
+# Executar o script (como root ou com sudo)
 sudo ./install.sh
+
+# Opções adicionais (ex: com Nginx e SSL)
+# sudo ./install.sh --nginx --ssl --domain seu.dominio.com
 ```
 
 **Características:**
-- ✅ Instalação completamente automatizada
-- ✅ Configura todos os serviços necessários
-- ✅ Nginx com SSL opcional
-- ✅ Backup automático
-- ✅ Firewall configurado
-- ✅ Serviços systemd
+- ✅ Instalação completa de dependências (Python, Node.js, pnpm)
+- ✅ Configuração de ambiente virtual Python
+- ✅ Instalação do bot Nazuna e suas dependências
+- ✅ Configuração de usuário dedicado (`nazuna`)
+- ✅ Configuração de firewall (UFW/Firewalld)
+- ✅ Criação de serviço `systemd` para o painel
+- ✅ Configuração opcional de Nginx como proxy reverso
+- ✅ Configuração opcional de SSL com Let's Encrypt
+- ✅ Configuração de backup automático
 
-### 2. **Docker (Recomendado para Desenvolvedores)**
+### 2. **Instalação no Termux (Android)**
+
+Este script é otimizado para a instalação em dispositivos Android via Termux.
 
 ```bash
-# Clonar repositório
-git clone https://github.com/seu-repo/nazuna-panel.git
-cd nazuna-panel
+# Baixar o script de instalação
+wget https://raw.githubusercontent.com/Pauloh2206/Panel-BOT/main/nazuna-panel-backend/install-termux.sh
+
+# Tornar o script executável
+chmod +x install-termux.sh
+
+# Executar o script
+./install-termux.sh
+```
+
+**Características:**
+- ✅ Instalação de dependências (Python, Node.js, pnpm) via `pkg`
+- ✅ Clonagem do repositório
+- ✅ Configuração do backend Flask
+- ✅ Instalação do bot Nazuna e suas dependências
+- ✅ Build e cópia do frontend para o backend
+- ✅ Instruções claras para iniciar o backend e frontend
+
+### 3. **Docker (Recomendado para Desenvolvedores e Produção)**
+
+Utilize Docker para uma instalação isolada e portátil.
+
+```bash
+# Clonar o repositório
+git clone https://github.com/Pauloh2206/Panel-BOT.git
+cd Panel-BOT
 
 # Iniciar com Docker Compose
 docker-compose up -d
@@ -132,19 +172,20 @@ docker-compose logs -f
 ```
 
 **Características:**
-- ✅ Isolamento completo
-- ✅ PostgreSQL + Redis inclusos
-- ✅ Nginx configurado
-- ✅ Backup automático
-- ✅ Fácil escalabilidade
+- ✅ Isolamento completo do ambiente
+- ✅ Fácil portabilidade entre sistemas
+- ✅ Gerenciamento simplificado de dependências
+- ✅ Escalabilidade e orquestração com Docker Compose
 
-### 3. **Heroku (Hospedagem Gratuita)**
+### 4. **Heroku (Hospedagem Gratuita)**
+
+Para deploy rápido e gratuito (com limitações de plano).
 
 ```bash
-# Fazer deploy no Heroku
-heroku create seu-app-nazuna
-git push heroku main
-heroku open
+# Certifique-se de ter o Heroku CLI instalado e logado
+heroku create seu-app-nazuna # Crie um novo app Heroku
+git push heroku main         # Faça o deploy do seu código
+heroku open                  # Abra o app no navegador
 ```
 
 **Características:**
@@ -154,12 +195,13 @@ heroku open
 - ✅ Integração com GitHub
 - ⚠️ Limitações do plano gratuito
 
-### 4. **Railway (Moderno e Fácil)**
+### 5. **Railway (Moderno e Fácil)**
+
+Plataforma moderna com deploy automático via GitHub.
 
 ```bash
-# Deploy automático via GitHub
-# Conectar repositório no painel Railway
-# Deploy automático a cada push
+# Conecte seu repositório GitHub (Pauloh2206/Panel-BOT) no painel do Railway.
+# O deploy será automático a cada push para a branch principal.
 ```
 
 **Características:**
@@ -174,23 +216,23 @@ heroku open
 ### 1. **Configurar o Bot Nazuna**
 
 ```bash
-# Clonar o bot (se não foi feito automaticamente)
-cd /opt/nazuna-panel
+# Se o bot não foi clonado automaticamente pelo script de instalação, faça-o:
+cd /opt/nazuna-panel # Ou o diretório onde o painel foi instalado
 git clone https://github.com/hiudyy/nazuna.git nazuna
 
-# Instalar dependências
+# Instalar dependências do bot
 cd nazuna
 npm install
 
-# Configurar o bot conforme documentação original
+# Configurar o bot conforme documentação original do Nazuna
 ```
 
 ### 2. **Acessar o Painel**
 
-- **Local**: `http://localhost:5000`
-- **VPS**: `http://SEU_IP:5000`
-- **Com Nginx**: `http://SEU_DOMINIO`
-- **Com SSL**: `https://SEU_DOMINIO`
+- **Local (desenvolvimento)**: `http://localhost:5173` (após iniciar frontend e backend)
+- **VPS (padrão)**: `http://SEU_IP:5000`
+- **VPS (com Nginx)**: `http://SEU_DOMINIO`
+- **VPS (com Nginx e SSL)**: `https://SEU_DOMINIO`
 
 ### 3. **Configurações Iniciais**
 
@@ -207,28 +249,28 @@ npm install
 
 ### **Logs do Sistema**
 ```bash
-# Ver logs do painel
+# Ver logs do painel (para instalações via install.sh)
 sudo journalctl -u nazuna-panel -f
 
-# Ver logs do Nginx
+# Ver logs do Nginx (se configurado)
 sudo tail -f /var/log/nginx/access.log
 
-# Ver logs da aplicação
+# Ver logs da aplicação (se configurado)
 sudo tail -f /opt/nazuna-panel/logs/app.log
 ```
 
 ### **Comandos Úteis**
 ```bash
-# Status do serviço
+# Status do serviço (para instalações via install.sh)
 sudo systemctl status nazuna-panel
 
-# Reiniciar serviço
+# Reiniciar serviço (para instalações via install.sh)
 sudo systemctl restart nazuna-panel
 
 # Backup manual
 sudo /opt/nazuna-panel/backup.sh
 
-# Atualizar painel
+# Atualizar painel (para instalações via install.sh)
 cd /opt/nazuna-panel
 sudo -u nazuna git pull
 sudo systemctl restart nazuna-panel
@@ -238,7 +280,7 @@ sudo systemctl restart nazuna-panel
 
 ### **Configurações Implementadas**
 - ✅ Firewall configurado (UFW/Firewalld)
-- ✅ SSL/TLS com Let\'s Encrypt
+- ✅ SSL/TLS com Let's Encrypt
 - ✅ Usuário dedicado (nazuna)
 - ✅ Permissões restritivas
 - ✅ Headers de segurança no Nginx
@@ -266,6 +308,7 @@ sudo systemctl restart nazuna-panel
 - ✅ CentOS 7+
 - ✅ RHEL 7+
 - ✅ Docker (qualquer SO)
+- ✅ Termux (Android)
 
 ### **Requisitos Mínimos**
 - 💾 **RAM**: 1GB (recomendado 2GB)
@@ -320,7 +363,8 @@ sudo journalctl -u nazuna-panel -f --no-pager
 - 🐳 **docker.md** - Deploy Docker
 
 ### **Arquivos Importantes**
-- 🔧 **install.sh** - Script de instalação automática
+- 🔧 **install.sh** - Script de instalação automática para VPS
+- 📱 **install-termux.sh** - Script de instalação automática para Termux
 - 🚀 **start.sh** - Script de inicialização
 - 🐳 **docker-compose.yml** - Configuração Docker
 - ⚙️ **requirements.txt** - Dependências Python
@@ -337,7 +381,8 @@ sudo journalctl -u nazuna-panel -f --no-pager
 - ✅ Dashboard com métricas
 
 ### **Instalação e Deploy**
-- ✅ Script de instalação automática
+- ✅ Script de instalação automática para VPS
+- ✅ Script de instalação automática para Termux
 - ✅ Suporte a múltiplas plataformas
 - ✅ Docker e Docker Compose
 - ✅ Guias detalhados de deploy
@@ -345,7 +390,7 @@ sudo journalctl -u nazuna-panel -f --no-pager
 - ✅ Backup automático
 
 ### **Documentação**
-- ✅ README completo
+- ✅ README completo e atualizado
 - ✅ Guias específicos por plataforma
 - ✅ Solução de problemas
 - ✅ Comandos úteis
@@ -365,63 +410,4 @@ O Nazuna Bot Panel está pronto para uso em produção com:
 **Acesse o painel e comece a gerenciar seu bot Nazuna de forma profissional!**
 
 
-
-## 💻 Instalação Local (Desenvolvimento)
-
-Para rodar o painel localmente em seu computador ou em ambientes como o Termux, siga os passos abaixo:
-
-### 1. **Pré-requisitos**
-
-Certifique-se de ter instalado:
-- **Git**: Para clonar o repositório.
-- **Python 3.11+**: Para o backend Flask.
-- **Node.js 18+ e pnpm**: Para o frontend React.
-
-#### **Instalação no Termux (Android)**
-
-```bash
-pkg update && pkg upgrade -y
-pkg install git python nodejs-lts -y
-npm install -g pnpm
-```
-
-### 2. **Clonar o Repositório**
-
-```bash
-git clone https://github.com/Pauloh2206/Panel-BOT.git
-cd Panel-BOT
-```
-
-### 3. **Configurar o Backend (Flask)**
-
-```bash
-cd nazuna-panel-backend
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-
-# Rodar o backend
-nohup python src/main.py > backend.log 2>&1 &
-```
-
-### 4. **Configurar o Frontend (React)**
-
-```bash
-cd ../nazuna-panel-frontend
-pnpm install
-
-# Rodar o frontend (em uma nova sessão de terminal)
-pnpm run dev --host
-```
-
-### 5. **Acessar o Painel**
-
-Após iniciar o backend e o frontend, acesse o painel em seu navegador:
-
-`http://localhost:5173`
-
-**Observações para Termux:**
-- Para acessar `localhost:5173` do seu navegador no Android, use o endereço IP do seu dispositivo Termux (geralmente `127.0.0.1` ou o IP da rede local).
-- Mantenha as sessões do Termux abertas para o backend e frontend enquanto estiver usando o painel.
-- Para parar os processos, você pode usar `pkill -f 
 
